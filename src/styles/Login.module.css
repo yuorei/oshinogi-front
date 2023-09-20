@@ -8,7 +8,8 @@
     margin-left: 20%;
     margin-right: 20%;
     padding: 10%;
-    border-radius: 50px; /*角丸*/
+    border-radius: 50px;
+    /*角丸*/
 }
 
 .form input {
@@ -16,24 +17,35 @@
     padding: 10px;
     margin: 5px;
     font-size: large;
-    border-radius: 20px; /*角丸*/
+    border-radius: 20px;
+    /*角丸*/
 }
 
-.login_button{
+.login_button {
     background-color: #4CAF50;
-    border: none; /*枠線なし*/
+    border: none;
+    /*枠線なし*/
     color: white;
     padding: 15px 32px;
     margin: 20px;
     font-size: 16px;
-    border-radius: 10px; /*角丸*/
+    border-radius: 10px;
+    /*角丸*/
 }
 
-.registore{
+.registore {
     background-color: #eeff00;
-    border: none; /*枠線なし*/
+    border: none;
+    /*枠線なし*/
     padding: 15px 32px;
     margin: 20px;
     font-size: 16px;
-    border-radius: 10px; /*角丸*/
+    border-radius: 10px;
+    /*角丸*/
+}
+
+.font{
+    font-size: 200%;
+    font-weight: bold;
+    color: #000000;
 }
