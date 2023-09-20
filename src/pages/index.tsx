@@ -52,7 +52,7 @@ export default function Home() {
       <main >
         <div className={styles.select}>
           <p className={styles.p}>推しを選んでください</p>
-          <button className={styles.button} onClick={buttonAlert}>新たに作る</button>
+          <button className={styles.button} onClick={buttonAlert}>政治家を追加する</button>
         </div>
         <ul>
           {politicianList.map((politician) => (
