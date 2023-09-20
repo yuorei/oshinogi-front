@@ -4,7 +4,7 @@ import Head from 'next/head'
 import styles from '@/styles/Login.module.css'
 import Header from '@/components/header/header'
 
-export default function Form() {
+export default function Signup() {
     const [name, setUserName] = useState('')
     const [email, setUserEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -53,15 +53,15 @@ export default function Form() {
 
             <form className={styles.form} onSubmit={save}>
                 <div>
-                    <label htmlFor="name">名前</label>
+                    <label className={styles.font} htmlFor="name">名前</label>
                     <input type="name" name="name" id="name" value={name} onChange={e => setUserName(e.target.value)} />
                 </div>
                 <div>
-                    <label htmlFor="email">メールアドレス</label>
+                    <label className={styles.font} htmlFor="email">メールアドレス</label>
                     <input type="email" name="email" id="email" value={email} onChange={e => setUserEmail(e.target.value)} />
                 </div>
                 <div>
-                    <label htmlFor="password">パスワード</label>
+                    <label className={styles.font} htmlFor="password">パスワード</label>
                     <input type="password" name="password" id="password" value={password} onChange={e => setPassword(e.target.value)} />
                 </div>
                 <button className={styles.login_button} type="submit">作成</button>

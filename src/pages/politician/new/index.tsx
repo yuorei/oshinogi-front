@@ -3,21 +3,19 @@ import Router from 'next/router'
 import Head from 'next/head'
 import styles from '@/styles/Login.module.css'
 import Header from '@/components/header/header'
-import Link from 'next/link';
 
-
-export default function Form() {
-    const [email, setUserEmail] = useState('')
-    const [password, setPassword] = useState('')
+export default function FormRegister() {
+    const [name, setPoliticianName] = useState('')
+    const [district, setPoliticianDistrict] = useState('')
 
     const save = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const data = {
-            email: email,
-            password: password
+            name: name,
+            district: district,
         }
         try {
-            const res = await fetch('http://localhost:8080/login', {
+            const res = await fetch('http://localhost:8080/politician/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -28,7 +26,7 @@ export default function Form() {
             if (!res.ok) {
                 // サーバーからエラーレスポンスが返された場合の処理
                 console.error(`Fetch failed with status ${res.status}`);
-                alert('ログインに失敗しました')
+                alert('作成に失敗しました')
             } else {
                 const json = await res.json();
                 console.log(json);
@@ -37,7 +35,7 @@ export default function Form() {
         } catch (error) {
             // ネットワークエラーやその他の例外が発生した場合の処理
             console.error('Fetch error:', error);
-            alert('ログインに失敗しました')
+            alert('作成に失敗しました')
         }
     }
 
@@ -52,20 +50,16 @@ export default function Form() {
             <Header />
 
             <form className={styles.form} onSubmit={save}>
+                <div className={styles.font}>追加する人の情報を入力してください</div>
                 <div>
-                    <label className={styles.font} htmlFor="email">メールアドレス</label>
-                    <input type="email" name="email" id="email" value={email} onChange={e => setUserEmail(e.target.value)} />
+                    <label className={styles.font} htmlFor="name">名前</label>
+                    <input type="name" name="name" id="name" value={name} onChange={e => setPoliticianName(e.target.value)} />
                 </div>
                 <div>
-                    <label className={styles.font} htmlFor="password">パスワード</label>
-                    <input type="password" name="password" id="password" value={password} onChange={e => setPassword(e.target.value)} />
+                    <label className={styles.font} htmlFor="district">地域</label>
+                    <input type="district" name="district" id="district" value={district} onChange={e => setPoliticianDistrict(e.target.value)} />
                 </div>
-                <button className={styles.login_button} type="submit">ログイン</button>
-                <div className={styles.registore}>
-                    <Link href="/signup">
-                        新規登録はこちらから
-                    </Link>
-                </div>
+                <button className={styles.login_button} type="submit">作成</button>
             </form>
         </>
     )
