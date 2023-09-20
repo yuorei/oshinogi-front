@@ -10,7 +10,6 @@ export default function Form() {
     const [password, setPassword] = useState('')
 
     const save = async (e: React.FormEvent<HTMLFormElement>) => {
-        console.log('save')
         e.preventDefault()
         const data = {
             email: email,
@@ -28,7 +27,7 @@ export default function Form() {
             if (!res.ok) {
                 // サーバーからエラーレスポンスが返された場合の処理
                 console.error(`Fetch failed with status ${res.status}`);
-                // ここで必要なエラーハンドリングを行うことができます
+                alert('ログインに失敗しました')
             } else {
                 const json = await res.json();
                 console.log(json);
