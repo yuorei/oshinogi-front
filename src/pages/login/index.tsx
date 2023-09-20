@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Router from 'next/router'
 import Head from 'next/head'
 import styles from '@/styles/Login.module.css'
 import Header from '@/components/header/header'
@@ -31,11 +32,12 @@ export default function Form() {
             } else {
                 const json = await res.json();
                 console.log(json);
-                // 成功した場合の処理をここに記述
+                Router.push('/')
             }
         } catch (error) {
             // ネットワークエラーやその他の例外が発生した場合の処理
             console.error('Fetch error:', error);
+            alert('ログインに失敗しました')
         }
     }
 
