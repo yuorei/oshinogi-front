@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Head from 'next/head'
-// import styles from '@/styles/Login.module.css'
+import styles from '@/styles/Login.module.css'
 import Header from '@/components/header/header'
 import Link from 'next/link';
 
@@ -50,7 +50,7 @@ export default function Form() {
             </Head>
             <Header />
 
-            <form onSubmit={save}>
+            <form className={styles.form} onSubmit={save}>
                 <div>
                     <label htmlFor="email">メールアドレス</label>
                     <input type="email" name="email" id="email" value={email} onChange={e => setUserEmail(e.target.value)} />
@@ -59,14 +59,13 @@ export default function Form() {
                     <label htmlFor="password">パスワード</label>
                     <input type="password" name="password" id="password" value={password} onChange={e => setPassword(e.target.value)} />
                 </div>
-                <button type="submit">ログイン</button>
+                <button className={styles.login_button} type="submit">ログイン</button>
+                <div className={styles.registore}>
+                    <Link href="/signup">
+                        新規登録はこちらから
+                    </Link>
+                </div>
             </form>
-
-            <div>
-                <Link href="/signup">
-                    新規登録はこちらから
-                </Link>
-            </div>
         </>
     )
 }
