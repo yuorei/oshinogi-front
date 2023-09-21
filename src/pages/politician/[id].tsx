@@ -2,7 +2,9 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { notFound } from "next/navigation";
 import styles from '@/styles/Politician.module.css'
+import styleshome from '@/styles/Home.module.css'
 import { useRouter } from 'next/router'
+import Header from '@/components/header/header'
 
 interface Post {
     id: number;
@@ -20,11 +22,11 @@ interface PoliticianInformation {
 const posts = [
     {
         id: 1,
-        post: '参議院議員の投稿',
+        post: '投稿コメント1',
     },
     {
         id: 2,
-        post: '衆議院議員の投稿',
+        post: '投稿コメント2',
     },
 ]
 
@@ -33,7 +35,7 @@ const politicianInformation = {
     name: 'やまださん',
     age: 30,
     level: 1,
-    imageURL: 'https://hackmd.io/_uploads/H1x4vLvRn.jpg',
+    imageURL: 'https://example.com/example.jpg',
 }
 
 const getPoliticianPost = async (id: number) => {
@@ -86,12 +88,13 @@ export default function Politician() {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
+            <Header />
             <div className={styles.politician_page}>
-                <div className={styles.post}>
+                <ul className={styles.posts}>
                     {posts.map((post) => (
-                        <p key={post.id} className={styles.politician_page}>{post.post}</p>
+                        <li key={post.id} className={styles.post}>{post.post}</li>
                     ))}
-                </div>
+                </ul>
                 <div>
                     <Image
                         src={politicianInformation.imageURL}
@@ -99,9 +102,9 @@ export default function Politician() {
                         width={500}
                         height={500}
                     />
-                    <p>名前: {politicianInformation.name}</p>
-                    <p>レベル: {politicianInformation.level}</p>
-                    <p>年齢: {politicianInformation.age}</p>
+                    <p className={styleshome.p}>名前: {politicianInformation.name}</p>
+                    <p className={styleshome.p}>レベル: {politicianInformation.level}</p>
+                    <p className={styleshome.p}>年齢: {politicianInformation.age}</p>
                 </div>
             </div>
         </>
