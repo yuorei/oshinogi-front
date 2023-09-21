@@ -20,8 +20,12 @@ interface PoliticianInformation {
 const posts = [
     {
         id: 1,
-        post: '参議院議員',
-    }
+        post: '参議院議員の投稿',
+    },
+    {
+        id: 2,
+        post: '衆議院議員の投稿',
+    },
 ]
 
 // TODO バックエンド実装後に消す
