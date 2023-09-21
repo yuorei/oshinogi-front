@@ -1,0 +1,20 @@
+.politician_page {
+    color: red;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.posts {
+    color: blue;
+    list-style: none;
+}
+
+.post {
+    color: rgb(44, 12, 255);
+    background-color: rgb(191, 191, 191);
+    border: 2px solid #000000;
+    font-size: 50px;
+}
