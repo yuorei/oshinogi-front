@@ -6,6 +6,7 @@ import styles from '@/styles/Politician.module.css'
 import styleshome from '@/styles/Home.module.css'
 import { useRouter } from 'next/router'
 import Header from '@/components/header/header'
+import Like from '@/components/like/like'
 
 interface Post {
     id: number;
@@ -36,7 +37,7 @@ const politicianInformation = {
     name: 'やまださん',
     age: 30,
     level: 1,
-    imageURL: 'https://example.com/example.jpg',
+    imageURL: 'https://hackmd.io/_uploads/B1K-77KkT.jpg',
 }
 
 const getPoliticianPost = async (id: number) => {
@@ -78,13 +79,31 @@ const getPoliticianInformation = async (id: number) => {
 // TODO feachで取得したデータを表示する場合はasync awaitを使う
 export default function Politician() {
     const [post, setPost] = useState('')
+    const [like, setLike] = useState('')
     const router = useRouter()
     const id = router.query.id as string
 
     const save = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        let likeNumber = 0
+        switch (like) {
+            case 'good':
+                likeNumber = 1
+                break;
+            case 'normal':
+                likeNumber = 0
+                break;
+            case 'bad':
+                likeNumber = -1
+                break;
+            default:
+                alert('評価をしてください')
+                return
+        }
+
         const data = {
             content: post,
+            plusMinus: likeNumber,
         }
         try {
             const res = await fetch(`http://localhost:8080/politician/board/${id}`, {
@@ -126,7 +145,13 @@ export default function Politician() {
                     <li>
                         <form className={styles.form} onSubmit={save}>
                             <textarea className={styles.post} rows={1} cols={30} value={post} onChange={e => setPost(e.target.value)} placeholder="投稿する" />
-                            <button className={styleshome.button} type="submit" onSubmit={save} >投稿</button>
+                            <select value={like} onChange={e => setLike(e.target.value)}>
+                                <option value="good">グッド👍</option>
+                                <option value="normal">普通😃</option>
+                                <option value="bad">バット👎</option>
+                            </select>
+
+                            <button className={styleshome.button} type="submit"  >投稿</button>
                         </form>
                     </li>
                     {posts.map((post) => (
