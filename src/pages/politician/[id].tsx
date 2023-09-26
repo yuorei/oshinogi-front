@@ -6,43 +6,50 @@ import styles from '@/styles/Politician.module.css'
 import styleshome from '@/styles/Home.module.css'
 import { useRouter } from 'next/router'
 import Header from '@/components/header/header'
-import Like from '@/components/like/like'
 
 interface Post {
-    id: number;
-    post: string;
+    id: number,
+    userId: number,
+    boardId: number,
+    content: string,
+    plusMinus: number,
+    createdAt: string,
+    updatedAt: string
 }
 
 interface PoliticianInformation {
-    name: string;
-    age: number;
-    level: number;
-    imageURL: string;
+    id: number,
+    name: string,
+    description: string,
+    imageURL: string,
+    level: number,
+    createdAt: string,
+    updatedAt: string,
 }
 
 // TODO バックエンド実装後に消す
 const posts = [
     {
         id: 1,
-        post: '投稿コメント1',
+        content: '投稿コメント1',
     },
     {
         id: 2,
-        post: '投稿コメント2',
+        content: '投稿コメント2',
     },
 ]
 
 // TODO バックエンド実装後に消す
 const politicianInformation = {
     name: 'やまださん',
-    age: 30,
     level: 1,
+    description: 'やまださんはとてもいい人です',
     imageURL: 'https://hackmd.io/_uploads/B1K-77KkT.jpg',
 }
 
 const getPoliticianPost = async (id: number) => {
     try {
-        const res = await fetch(`http://localhost:8080/politician/post/${id}`);
+        const res = await fetch(`http://localhost:8080/comments/?politician_id=${id}`);
         if (res.status === 404) {
             notFound();
         }
@@ -60,7 +67,7 @@ const getPoliticianPost = async (id: number) => {
 
 const getPoliticianInformation = async (id: number) => {
     try {
-        const res = await fetch(`http://localhost:8080/politician/${id}`);
+        const res = await fetch(`http://localhost:8080/politicians/${id}`);
         if (res.status === 404) {
             notFound();
         }
@@ -106,7 +113,7 @@ export default function Politician() {
             plusMinus: likeNumber,
         }
         try {
-            const res = await fetch(`http://localhost:8080/politician/board/${id}`, {
+            const res = await fetch(`http://localhost:8080//comments/board/${id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -155,7 +162,7 @@ export default function Politician() {
                         </form>
                     </li>
                     {posts.map((post) => (
-                        <li key={post.id} className={styles.post}>{post.post}</li>
+                        <li key={post.id} className={styles.post}>{post.content}</li>
                     ))}
                 </ul>
                 <div>
@@ -167,7 +174,7 @@ export default function Politician() {
                     />
                     <p className={styleshome.p}>名前: {politicianInformation.name}</p>
                     <p className={styleshome.p}>レベル: {politicianInformation.level}</p>
-                    <p className={styleshome.p}>年齢: {politicianInformation.age}</p>
+                    <p className={styleshome.p}>説明: {politicianInformation.description}</p>
                 </div>
             </div>
         </>
