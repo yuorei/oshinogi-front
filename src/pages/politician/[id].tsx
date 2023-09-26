@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import { useState } from 'react';
 import { notFound } from "next/navigation";
 import styles from '@/styles/Politician.module.css'
 import styleshome from '@/styles/Home.module.css'
@@ -76,8 +77,39 @@ const getPoliticianInformation = async (id: number) => {
 
 // TODO feachで取得したデータを表示する場合はasync awaitを使う
 export default function Politician() {
+    const [post, setPost] = useState('')
     const router = useRouter()
-    const id = router.query.id;
+    const id = router.query.id as string
+
+    const save = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        const data = {
+            content: post,
+        }
+        try {
+            const res = await fetch(`http://localhost:8080/politician/board/${id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (!res.ok) {
+                // サーバーからエラーレスポンスが返された場合の処理
+                console.error(`Fetch failed with status ${res.status}`);
+                alert('作成に失敗しました')
+            } else {
+                const json = await res.json();
+                console.log(json);
+                router.reload()
+            }
+        } catch (error) {
+            // ネットワークエラーやその他の例外が発生した場合の処理
+            console.error('Fetch error:', error);
+            alert('作成に失敗しました')
+        }
+    }
     // const posts = await getPoliticianPost(id)
     // const politicianInformation = await getPoliticianInformation(id)
     return (
@@ -91,6 +123,12 @@ export default function Politician() {
             <Header />
             <div className={styles.politician_page}>
                 <ul className={styles.posts}>
+                    <li>
+                        <form className={styles.form} onSubmit={save}>
+                            <textarea className={styles.post} rows={1} cols={30} value={post} onChange={e => setPost(e.target.value)} placeholder="投稿する" />
+                            <button className={styleshome.button} type="submit" onSubmit={save} >投稿</button>
+                        </form>
+                    </li>
                     {posts.map((post) => (
                         <li key={post.id} className={styles.post}>{post.post}</li>
                     ))}

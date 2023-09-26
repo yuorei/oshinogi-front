@@ -18,3 +18,7 @@
     border: 2px solid #000000;
     font-size: 50px;
 }
+
+.form {
+    display: flex;
+}
