@@ -7,17 +7,17 @@ import Link from 'next/link';
 
 
 export default function Form() {
-    const [email, setUserEmail] = useState('')
+    const [name, setUserName] = useState('')
     const [password, setPassword] = useState('')
 
     const save = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const data = {
-            email: email,
+            name:name,
             password: password
         }
         try {
-            const res = await fetch('http://localhost:8080/login', {
+            const res = await fetch('http://localhost:8080/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -32,6 +32,7 @@ export default function Form() {
             } else {
                 const json = await res.json();
                 console.log(json);
+                localStorage.setItem('token', json.token);
                 Router.push('/')
             }
         } catch (error) {
@@ -53,8 +54,8 @@ export default function Form() {
 
             <form className={styles.form} onSubmit={save}>
                 <div>
-                    <label className={styles.font} htmlFor="email">メールアドレス</label>
-                    <input type="email" name="email" id="email" value={email} onChange={e => setUserEmail(e.target.value)} />
+                    <label className={styles.font} htmlFor="name">名前</label>
+                    <input type="name" name="name" id="name" value={name} onChange={e => setUserName(e.target.value)} />
                 </div>
                 <div>
                     <label className={styles.font} htmlFor="password">パスワード</label>
