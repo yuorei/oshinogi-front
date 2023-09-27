@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { notFound } from "next/navigation";
 import styles from '@/styles/Politician.module.css'
 import styleshome from '@/styles/Home.module.css'
@@ -64,11 +64,34 @@ const getPoliticianInformation = async (id: number) => {
 }
 
 // TODO feachで取得したデータを表示する場合はasync awaitを使う
-export default async function Politician() {
+export default function Politician() {
     const [post, setPost] = useState('')
     const [like, setLike] = useState('')
+    const [posts, setPosts] = useState<Post[]>([])
+    const [politicianInformation, setPoliticianInformation] = useState<PoliticianInformation | null>(null)
+
     const router = useRouter()
     const id = router.query.id as string
+
+    useEffect(() => {
+        if (router.isReady) {
+            (async () => {
+                {
+                    const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/comments/?politician_id=${router.query.id}`);
+                    const data = await res.json();
+                    setPosts(data.comments)
+                }
+                {
+                    const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/politicians/${router.query.id}`);
+                    console.log(res)
+                    const data = await res.json();
+                    console.log(data)
+                    setPoliticianInformation(data.politician)
+                }
+            })()
+        }
+    }, [router])
+
 
     const save = async (e: React.FormEvent<HTMLFormElement>) => {
         if (null == localStorage.getItem("token")) {
@@ -98,7 +121,7 @@ export default async function Politician() {
             plusMinus: likeNumber,
         }
         try {
-            const res = await fetch(`http://localhost:8000//comments/board/${id}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/comments/board/${id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -122,8 +145,6 @@ export default async function Politician() {
             alert('作成に失敗しました')
         }
     }
-    const posts = await getPoliticianPost(Number(id))
-    const politicianInformation = await getPoliticianInformation(Number(id))
     return (
         <>
             <Head>
@@ -151,17 +172,21 @@ export default async function Politician() {
                         <li key={post.id} className={styles.post}>{post.content}</li>
                     ))}
                 </ul>
-                <div>
-                    <Image
-                        src={politicianInformation.imageURL}
-                        alt={politicianInformation.name}
-                        width={500}
-                        height={500}
-                    />
-                    <p className={styleshome.p}>名前: {politicianInformation.name}</p>
-                    <p className={styleshome.p}>レベル: {politicianInformation.level}</p>
-                    <p className={styleshome.p}>説明: {politicianInformation.description}</p>
-                </div>
+                {
+                    politicianInformation === null ? null : (
+                        <div>
+                            <img
+                                src={politicianInformation.imageURL}
+                                alt={politicianInformation.name}
+                                width={500}
+                                height={500}
+                            />
+                            <p className={styleshome.p}>名前: {politicianInformation.name}</p>
+                            <p className={styleshome.p}>レベル: {politicianInformation.level}</p>
+                            <p className={styleshome.p}>説明: {politicianInformation.description}</p>
+                        </div>
+                    )
+                }
             </div>
         </>
     )

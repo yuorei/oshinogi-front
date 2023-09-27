@@ -7,15 +7,17 @@ import Header from '@/components/header/header'
 export default function FormRegister() {
     const [name, setPoliticianName] = useState('')
     const [description, setPoliticianDescription] = useState('')
+    const [imageURL, setImageURL] = useState('')
 
     const save = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const data = {
             name: name,
             description: description,
+            imageURL: imageURL,
         }
         try {
-            const res = await fetch('http://localhost:8000/politicians/register', {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/politicians/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -58,6 +60,10 @@ export default function FormRegister() {
                 <div>
                     <label className={styles.font} htmlFor="description">説明</label>
                     <input type="description" name="description" id="description" value={description} onChange={e => setPoliticianDescription(e.target.value)} />
+                </div>
+                <div>
+                    <label className={styles.font} htmlFor="image_url">画像URL</label>
+                    <input type="image_url" name="image_url" id="image_url" value={imageURL} onChange={e => setImageURL(e.target.value)} />
                 </div>
                 <button className={styles.login_button} type="submit">作成</button>
             </form>

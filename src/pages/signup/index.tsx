@@ -15,7 +15,7 @@ export default function Signup() {
             password: password
         }
         try {
-            const res = await fetch('http://localhost:8000/users/register', {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/users/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
