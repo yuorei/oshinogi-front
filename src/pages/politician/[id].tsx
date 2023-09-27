@@ -27,42 +27,6 @@ interface PoliticianInformation {
     updatedAt: string,
 }
 
-const getPoliticianPost = async (id: number) => {
-    try {
-        const res = await fetch(`http://localhost:8000/comments/?politician_id=${id}`);
-        if (res.status === 404) {
-            notFound();
-        }
-        if (!res.ok) {
-            throw new Error("Failed to fetch politician");
-        }
-        const data = await res.json();
-
-        return data as Post[];
-    } catch (error) {
-        // エラーハンドリングのコードをここに追加
-        console.error("An error occurred:", error);
-    }
-}
-
-const getPoliticianInformation = async (id: number) => {
-    try {
-        const res = await fetch(`http://localhost:8000/politicians/${id}`);
-        if (res.status === 404) {
-            notFound();
-        }
-        if (!res.ok) {
-            throw new Error("Failed to fetch politician");
-        }
-        const data = await res.json();
-
-        return data as PoliticianInformation;
-    } catch (error) {
-        // エラーハンドリングのコードをここに追加
-        console.error("An error occurred:", error);
-    }
-}
-
 // TODO feachで取得したデータを表示する場合はasync awaitを使う
 export default function Politician() {
     const [post, setPost] = useState('')
