@@ -91,6 +91,11 @@ export default function Politician() {
     const id = router.query.id as string
 
     const save = async (e: React.FormEvent<HTMLFormElement>) => {
+        if (null == localStorage.getItem("token")) {
+            router.push('/login')
+            return
+        }
+
         e.preventDefault()
         let likeNumber = 0
         switch (like) {
@@ -117,6 +122,7 @@ export default function Politician() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
                 body: JSON.stringify(data),
             });
