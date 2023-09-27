@@ -27,26 +27,6 @@ interface PoliticianInformation {
     updatedAt: string,
 }
 
-// TODO バックエンド実装後に消す
-const posts = [
-    {
-        id: 1,
-        content: '投稿コメント1',
-    },
-    {
-        id: 2,
-        content: '投稿コメント2',
-    },
-]
-
-// TODO バックエンド実装後に消す
-const politicianInformation = {
-    name: 'やまださん',
-    level: 1,
-    description: 'やまださんはとてもいい人です',
-    imageURL: 'https://hackmd.io/_uploads/B1K-77KkT.jpg',
-}
-
 const getPoliticianPost = async (id: number) => {
     try {
         const res = await fetch(`http://localhost:8000/comments/?politician_id=${id}`);
@@ -84,7 +64,7 @@ const getPoliticianInformation = async (id: number) => {
 }
 
 // TODO feachで取得したデータを表示する場合はasync awaitを使う
-export default function Politician() {
+export default async function Politician() {
     const [post, setPost] = useState('')
     const [like, setLike] = useState('')
     const router = useRouter()
@@ -142,8 +122,8 @@ export default function Politician() {
             alert('作成に失敗しました')
         }
     }
-    // const posts = await getPoliticianPost(id)
-    // const politicianInformation = await getPoliticianInformation(id)
+    const posts = await getPoliticianPost(Number(id))
+    const politicianInformation = await getPoliticianInformation(Number(id))
     return (
         <>
             <Head>

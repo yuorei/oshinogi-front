@@ -5,11 +5,6 @@ import styles from '@/styles/Home.module.css'
 import Header from '@/components/header/header'
 import Link from 'next/link';
 
-const politicianList = [
-  { id: 1, name: 'User 1', district: '東京都' },
-  { id: 2, name: 'User 2', district: '愛知県' },
-  { id: 3, name: 'User 3', district: '大阪府' },
-];
 interface Politician {
   id: number;
   name: string;
@@ -37,8 +32,8 @@ const getPoliticians = async () => {
 }
 
 // TODO feachで取得したデータを表示する場合はasync awaitを使う
-export default function Home() {
-  // const politicianList = await getPoliticians()
+export default async function Home() {
+  const politicianList = await getPoliticians()
   const buttonAlert = () => {
     Router.push('/politician/new')
   }
@@ -60,7 +55,7 @@ export default function Home() {
           {politicianList.map((politician) => (
             <Link className={styles.list} href={`/politician/${politician.id}`}>
               <p className={styles.politician}>名前: {politician.name}</p>
-              <p className={styles.politician}>地区: {politician.district}</p>
+              <p className={styles.politician}>地区: {politician.description}</p>
             </Link>
           ))}
         </ul>
