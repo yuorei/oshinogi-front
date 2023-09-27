@@ -6,18 +6,16 @@ import Header from '@/components/header/header'
 
 export default function Signup() {
     const [name, setUserName] = useState('')
-    const [email, setUserEmail] = useState('')
     const [password, setPassword] = useState('')
 
     const save = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const data = {
             name: name,
-            email: email,
             password: password
         }
         try {
-            const res = await fetch('http://localhost:8080/signup', {
+            const res = await fetch('http://localhost:8000/users/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -55,10 +53,6 @@ export default function Signup() {
                 <div>
                     <label className={styles.font} htmlFor="name">名前</label>
                     <input type="name" name="name" id="name" value={name} onChange={e => setUserName(e.target.value)} />
-                </div>
-                <div>
-                    <label className={styles.font} htmlFor="email">メールアドレス</label>
-                    <input type="email" name="email" id="email" value={email} onChange={e => setUserEmail(e.target.value)} />
                 </div>
                 <div>
                     <label className={styles.font} htmlFor="password">パスワード</label>

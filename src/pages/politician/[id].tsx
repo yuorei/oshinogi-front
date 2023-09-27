@@ -49,7 +49,7 @@ const politicianInformation = {
 
 const getPoliticianPost = async (id: number) => {
     try {
-        const res = await fetch(`http://localhost:8080/comments/?politician_id=${id}`);
+        const res = await fetch(`http://localhost:8000/comments/?politician_id=${id}`);
         if (res.status === 404) {
             notFound();
         }
@@ -67,7 +67,7 @@ const getPoliticianPost = async (id: number) => {
 
 const getPoliticianInformation = async (id: number) => {
     try {
-        const res = await fetch(`http://localhost:8080/politicians/${id}`);
+        const res = await fetch(`http://localhost:8000/politicians/${id}`);
         if (res.status === 404) {
             notFound();
         }
@@ -91,6 +91,11 @@ export default function Politician() {
     const id = router.query.id as string
 
     const save = async (e: React.FormEvent<HTMLFormElement>) => {
+        if (null == localStorage.getItem("token")) {
+            router.push('/login')
+            return
+        }
+
         e.preventDefault()
         let likeNumber = 0
         switch (like) {
@@ -113,10 +118,11 @@ export default function Politician() {
             plusMinus: likeNumber,
         }
         try {
-            const res = await fetch(`http://localhost:8080//comments/board/${id}`, {
+            const res = await fetch(`http://localhost:8000//comments/board/${id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
                 body: JSON.stringify(data),
             });

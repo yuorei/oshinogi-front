@@ -6,16 +6,16 @@ import Header from '@/components/header/header'
 
 export default function FormRegister() {
     const [name, setPoliticianName] = useState('')
-    const [district, setPoliticianDistrict] = useState('')
+    const [description, setPoliticianDescription] = useState('')
 
     const save = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const data = {
             name: name,
-            district: district,
+            description: description,
         }
         try {
-            const res = await fetch('http://localhost:8080/politician/register', {
+            const res = await fetch('http://localhost:8000/politicians/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -56,8 +56,8 @@ export default function FormRegister() {
                     <input type="name" name="name" id="name" value={name} onChange={e => setPoliticianName(e.target.value)} />
                 </div>
                 <div>
-                    <label className={styles.font} htmlFor="district">地域</label>
-                    <input type="district" name="district" id="district" value={district} onChange={e => setPoliticianDistrict(e.target.value)} />
+                    <label className={styles.font} htmlFor="description">説明</label>
+                    <input type="description" name="description" id="description" value={description} onChange={e => setPoliticianDescription(e.target.value)} />
                 </div>
                 <button className={styles.login_button} type="submit">作成</button>
             </form>
