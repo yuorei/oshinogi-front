@@ -19,7 +19,7 @@ export default function Home() {
   const [politicians, setPoliticians] = useState<Politician[]>([])
   useEffect(() => {
     (async () => {
-      const res = await fetch(`http://localhost:8000/politicians/`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/politicians/`);
       const data = await res.json();
       setPoliticians(data.politicians);
     })()
